@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Button } from "antd";
+import { Table, Button, Modal } from "antd";
 import { useGetPostsQuery } from "../../api/posts";
 import { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -8,7 +8,15 @@ function Posts() {
   const { data = [], isLoading } = useGetPostsQuery();
   const [search, setSearch] = useState("");
   const [datas, setDatas] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [post, setPost] = useState({
+    title: "",
+    body: "",
+  });
 
+  const onView = (row) => {
+    setPost((prev) => ({ ...prev, title: row.title, body: row.body }));
+  };
   const columns = [
     {
       title: "№",
@@ -22,8 +30,17 @@ function Posts() {
     },
     {
       title: "view",
-      render: () => {
-        return <Button>view</Button>;
+      render: (row) => {
+        return (
+          <Button
+            onClick={() => {
+              onView(row);
+              setIsModalVisible(true);
+            }}
+          >
+            view
+          </Button>
+        );
       },
     },
   ];
@@ -38,7 +55,7 @@ function Posts() {
 
   if (isLoading) return <h1>Loading</h1>;
   return (
-    <div className="bg-green-400">
+    <div className="">
       <div className="flex justify-between w-[80%] mx-auto py-5">
         <h1 className="text-3xl font-bold  text-white">Posts Table</h1>
         <div>
@@ -51,6 +68,15 @@ function Posts() {
           />
           <AiOutlineSearch size={20} className="mt-[-30px] mx-2" />
         </div>
+
+        <Modal
+          title="Basic Modal"
+          visible={isModalVisible}
+          onOk={() => setIsModalVisible(false)}
+          onCancel={() => setIsModalVisible(false)}
+        >
+          <p>{post.body}</p>
+        </Modal>
       </div>
       {data.length > 0 && search === "" && (
         <Table

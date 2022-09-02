@@ -5,7 +5,7 @@ import Posts from "./container/Posts/Posts";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-green-400">
       <Posts />
     </div>
   );

@@ -1,10 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
+import React from "react";
+import "antd/dist/antd.css";
+import Posts from "./container/Posts/Posts";
 
 function App() {
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Posts />
     </div>
   );
 }
